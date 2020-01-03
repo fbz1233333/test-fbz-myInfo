@@ -1,0 +1,24 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: microservice-info
+  redis:
+    timeout: 5000
+  profiles:
+    active: dev
+    include: info
+
+  servlet:
+    multipart:
+      max-file-size: 200MB
+      max-request-size: 300MB
+mybatis:
+  mapper-locations: classpath:mapperxml/*.xml
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+
+

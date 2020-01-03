@@ -1,0 +1,13 @@
+baseInfo:
+  del: 1
+  normal: 0
+
+url:
+  basic: /api/**
+error:
+  unvalidated:
+    code: 88
+  no_token:
+    code: 89
+  non_null:
+    code: 90

@@ -1,0 +1,14 @@
+file:
+  image:
+    path: /home/myOII/img/
+    originPath: /image/**
+    toPath: file:/home/myOII/img/
+  default:
+    path: /home/myOII/
+spring:
+  datasource:
+    url: jdbc:mysql://cdb-jd5ntuyw.cd.tencentcdb.com:10085/myinfo?serverTimezone=UTC
+    username: root
+    password: Fbz961110
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
