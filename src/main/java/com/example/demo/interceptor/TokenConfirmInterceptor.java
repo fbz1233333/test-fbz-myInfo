@@ -30,8 +30,8 @@ public class TokenConfirmInterceptor implements HandlerInterceptor {
             Method method=handlerMethod.getMethod();
             if (method.isAnnotationPresent(UserLoginToken.class)){
 
-                String token=request.getHeader("LOGIN_USER_TOKEN");
-                String id=request.getHeader("LOGIN_USER_ID");
+                String token=request.getHeader("LOGIN_USER_TOKEN")==null?"":request.getHeader("LOGIN_USER_TOKEN");
+                String id=request.getHeader("LOGIN_USER_ID")==null?"":request.getHeader("LOGIN_USER_ID");
 
                 logger.info("LOGIN_USER_ID:{}",id);
                 logger.info("LOGIN_USER_TOKEN:{}",token);

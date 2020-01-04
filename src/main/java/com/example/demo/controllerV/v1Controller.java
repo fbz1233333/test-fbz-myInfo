@@ -3,6 +3,7 @@ package com.example.demo.controllerV;
 import com.example.demo.Rq.V2LoginRq;
 import com.example.demo.Rq.V2LogoutRq;
 import com.example.demo.Rq.V2RegisterRq;
+import com.example.demo.annotiation.UserLoginToken;
 import com.example.demo.domain.Resume;
 import com.example.demo.domain.User;
 import com.example.demo.feign.IFeignClient;
@@ -30,11 +31,6 @@ public class v1Controller {
     @Autowired
     IFeignClient iFeignClient;
 
-    @PostMapping("addInfo")
-    public void add(@RequestBody Resume resume){
-        resume.setId(UUID.randomUUID().toString());
-        iFeignClient.resumeAdd(resume);
-    }
 
     @GetMapping("getInfo")
     public Resume get(){
@@ -42,8 +38,9 @@ public class v1Controller {
     }
 
     @PostMapping("update")
+    @UserLoginToken
     public void update(@RequestBody Resume resume){
-        logger.info("传参为：{}",resume);
+//        logger.info("传参为：{}",resume);
         iFeignClient.resumeUpdate(resume);
     }
 }

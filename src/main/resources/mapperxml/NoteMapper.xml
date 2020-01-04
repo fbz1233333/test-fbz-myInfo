@@ -172,6 +172,5 @@
     from note
     where is_del=#{isDel,jdbcType=INTEGER}
     order by create_time
-    limit 7
   </select>
 </mapper>
