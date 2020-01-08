@@ -1,5 +1,6 @@
 package com.example.demo.controller;
 
+import com.example.demo.dao.FindIdAndNameAndHeadByIdAndIsDelResult;
 import com.example.demo.results.FindIdAndNameByNameAndPasswordAndIsDelResult;
 import com.example.demo.dao.UserMapper;
 import com.example.demo.domain.User;
@@ -16,6 +17,11 @@ public class UserController {
     @GetMapping("{id}")
     public User get(@PathVariable String  id){
         return userMapper.selectByPrimaryKey(id);
+    }
+
+    @GetMapping("restricted/{id}")
+    public FindIdAndNameAndHeadByIdAndIsDelResult find2(@PathVariable String id){
+        return userMapper.findIdAndNameAndHeadByIdAndIsDel(id,0);
     }
 
     @PostMapping
@@ -38,4 +44,7 @@ public class UserController {
     public FindIdAndNameByNameAndPasswordAndIsDelResult find1(@RequestBody User user){
         return userMapper.findIdAndNameByNameAndPasswordAndIsDel(user);
     }
+
+
+
 }

@@ -1,10 +1,10 @@
 package com.example.demo.dao;
-import com.example.demo.results.FindIdAndNameByNameAndPasswordAndIsDelResult;
+import com.example.demo.dao.FindIdAndNameAndHeadByIdAndIsDelResult;
 import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 import com.example.demo.domain.User;
-import org.apache.ibatis.annotations.Mapper;
+import com.example.demo.results.FindIdAndNameByNameAndPasswordAndIsDelResult;import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface UserMapper {
@@ -20,8 +20,11 @@ public interface UserMapper {
 
     int updateByPrimaryKey(User record);
 
+    FindIdAndNameByNameAndPasswordAndIsDelResult findIdAndNameByNameAndPasswordAndIsDel(User user);
 
-FindIdAndNameByNameAndPasswordAndIsDelResult findIdAndNameByNameAndPasswordAndIsDel(User user);
+
+    FindIdAndNameAndHeadByIdAndIsDelResult findIdAndNameAndHeadByIdAndIsDel(@Param("id")String id,@Param("isDel")Integer isDel);
+
 
 
 }

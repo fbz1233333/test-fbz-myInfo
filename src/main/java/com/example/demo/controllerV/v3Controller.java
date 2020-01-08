@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.util.HashMap;
 import java.util.UUID;
@@ -42,21 +43,38 @@ public class v3Controller {
     @UserLoginToken
     public HashMap<String,Object> upload(@RequestParam("file") MultipartFile file, @RequestParam("type") String  type){
         HashMap<String,Object> map=new HashMap<>();
-        logger.info("文件类型为:{}",type);
+        logger.info("fileType is:{}",type);
         String path;
         if ("IMAGE".equals(type)) {
             path = IMAGE_PATH;
         } else {
             path = DEFAULT_PATH;
         }
+        path+=request.getHeader(loginUserIdTag)+'/'+noteImage;
+        logger.info("need dir :{}" ,path);
         map.put("fileName",uploadFeignClient.upload(file,path));
         return   map;
     }
+    @Autowired
+    HttpServletRequest request;
+
+    @Value("${headerInfo.loginUserId.name}")
+    String loginUserIdTag;
+
+
+    final String noteImage="noteImage/";
 
     @PostMapping("delete")
+    @UserLoginToken
     public void delete(@RequestBody FileDeleteRq fileDeleteRq){
-
         String fileName=fileDeleteRq.getFileName();
-        iFeignClient.fileDelete(fileDeleteRq);
+
+        String loginUserId=request.getHeader(loginUserIdTag);
+        File file1=new File(IMAGE_PATH+loginUserId+'/'+noteImage+fileName);
+        if (!file1.exists()){
+            logger.info("file is not exist:{}",file1);
+        }else {
+            file1.delete();
+        }
     }
 }

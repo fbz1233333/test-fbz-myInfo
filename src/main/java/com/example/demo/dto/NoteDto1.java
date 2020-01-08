@@ -15,4 +15,5 @@ public class NoteDto1 {
 
     @Size(min = 10,message = "at least 10 chars")
     String text;
+
 }

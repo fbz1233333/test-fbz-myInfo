@@ -15,6 +15,16 @@ public class ExceptionInfo {
 
     List<String> Infos;
 
+    public ExceptionInfo(Integer code,String type,List<String > Infos){
+        this.code=code;
+        this.type=type;
+        this.Infos=Infos;
+    }
+
+    public ExceptionInfo(){
+
+    }
+
 
 
 

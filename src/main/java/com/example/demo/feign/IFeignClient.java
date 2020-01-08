@@ -3,6 +3,7 @@ package com.example.demo.feign;
 
 import com.example.demo.Rq.FileDeleteRq;
 import com.example.demo.config.FeignConfiguration;
+import com.example.demo.dao.FindIdAndNameAndHeadByIdAndIsDelResult;
 import com.example.demo.dao.FindIdAndTitleAndDescriptionAndCreateTimeByIsDelResult;
 import com.example.demo.domain.Note;
 import com.example.demo.domain.Resume;
@@ -11,7 +12,6 @@ import com.example.demo.domain.User;
 import feign.RequestLine;
 import org.springframework.cloud.openfeign.FeignClient;
 import feign.Param;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.awt.*;
@@ -35,6 +35,9 @@ public  interface IFeignClient {
 
     @RequestLine("GET /user/{id}")
     public User userGet(@Param("id") String id);
+
+    @RequestLine("GET /user/restricted/{id}")
+    public FindIdAndNameAndHeadByIdAndIsDelResult userGetInfo(@Param("id") String id);
 
     @RequestLine("DELETE /user/{id}")
     public void userDelete(@Param("id") String id);

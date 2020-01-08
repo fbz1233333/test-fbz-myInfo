@@ -31,4 +31,7 @@ public class User {
 
     @ApiModelProperty(value = "null")
     private Date updateTime;
+
+    @ApiModelProperty(value = "null")
+    private String head;
 }

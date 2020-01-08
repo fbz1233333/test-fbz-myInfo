@@ -3,7 +3,10 @@ package com.example.demo.controllerV;
 import com.example.demo.Rq.V2LoginRq;
 import com.example.demo.Rq.V2LogoutRq;
 import com.example.demo.Rq.V2RegisterRq;
+import com.example.demo.annotiation.UserLoginToken;
+import com.example.demo.dao.FindIdAndNameAndHeadByIdAndIsDelResult;
 import com.example.demo.domain.User;
+import com.example.demo.dto.UserDto1;
 import com.example.demo.feign.IFeignClient;
 import com.example.demo.results.FindIdAndNameByNameAndPasswordAndIsDelResult;
 import com.example.demo.utils.RedisUtil;
@@ -15,10 +18,12 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.HashMap;
@@ -32,6 +37,15 @@ public class v2Controller {
 
     @Autowired
     IFeignClient iFeignClient;
+
+    @PostMapping("getInfo")
+    @UserLoginToken
+    public FindIdAndNameAndHeadByIdAndIsDelResult get(@Validated @RequestBody UserDto1 userDto1){
+        logger.info("userId:{}",userDto1.getId());
+        String id=userDto1.getId();
+        return iFeignClient.userGetInfo(id);
+
+    }
 
     @PostMapping("register")
     public void v2add(@RequestBody @Validated V2RegisterRq v2Rq){
@@ -65,13 +79,12 @@ public class v2Controller {
             map.put("loginResult","LOGIN_SUCCESS") ;
             map.put("userInfo",result);
             String token=tokenUtils.getToken(result.getId(),result.getName());
-            logger.info("生成的TOKEN:{}",token);
+            logger.info("new token:{}",token);
             redisUtil.set(result.getId(),token);
 
 //            logger.info("常态model为:{}",model);
 //            model.addAttribute("testData2","这是第二条data"+result.getName());
 //            logger.info("常态model为:{}",model);
-
             map.put("token",token);
 
         }
@@ -84,11 +97,14 @@ public class v2Controller {
     @Autowired
     RedisUtil redisUtil;
 
-    @PostMapping("logout")
-    public HashMap<String,Object> logout(@RequestBody @Validated V2LogoutRq v2LogoutRq){
+    @Autowired
+    HttpServletRequest request;
 
-        String realId=v2LogoutRq.getId();
-//        logger.info("length:{}",v2LogoutRq.getId().length());
+    @GetMapping("logout")
+    @UserLoginToken
+    public HashMap<String,Object> logout(){
+
+        String realId=request.getHeader("loginUserId");
         logger.info("要退出的用户ID:{}",realId);
 
         redisUtil.delete(realId);

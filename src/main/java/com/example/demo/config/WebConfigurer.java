@@ -2,6 +2,7 @@ package com.example.demo.config;
 
 
 import com.example.demo.interceptor.TokenConfirmInterceptor;
+import com.example.demo.interceptor.UserIsAuthorInterceptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,10 +36,14 @@ public class WebConfigurer implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(tokenConfirmInterceptor()).addPathPatterns(URL_BASIC);
+        registry.addInterceptor(userIsAuthorInterceptor()).addPathPatterns(URL_BASIC);
     }
 
     @Bean
     public TokenConfirmInterceptor tokenConfirmInterceptor(){
         return new TokenConfirmInterceptor();
     }
+
+    @Bean
+    public UserIsAuthorInterceptor userIsAuthorInterceptor(){return new UserIsAuthorInterceptor();}
 }

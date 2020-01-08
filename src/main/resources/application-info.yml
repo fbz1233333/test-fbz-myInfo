@@ -11,3 +11,14 @@ error:
     code: 89
   non_null:
     code: 90
+  is_not_author:
+    code: 91
+    type: is_not_author
+    info: you are not the author of the note
+
+headerInfo:
+  loginUserId:
+    name: loginUserId
+  updateNoteId:
+    name: updateNoteId
+

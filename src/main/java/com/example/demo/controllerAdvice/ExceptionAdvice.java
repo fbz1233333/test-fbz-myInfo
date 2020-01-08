@@ -2,6 +2,7 @@ package com.example.demo.controllerAdvice;
 
 import com.example.demo.exception.MyException;
 import com.example.demo.exception.TokenConfirmException;
+import com.example.demo.exception.UserIsNotAuthorException;
 import com.example.demo.exceptionInfo.ExceptionInfo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,7 +60,7 @@ public class ExceptionAdvice{
 
         logger.info("进入NOTOKENExceptionHandler:{}", e.getMessage());
         ExceptionInfo exceptionInfo = new ExceptionInfo();
-        String info = "没有TOKEN 您尚未登录";
+        String info = "you have not log in";
         List<String> strings = new ArrayList<>();
         strings.add(info);
         exceptionInfo.setInfos(strings);
@@ -82,5 +83,21 @@ public class ExceptionAdvice{
         return new ResponseEntity<ExceptionInfo>(exceptionInfo, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(UserIsNotAuthorException.class)
+    public ResponseEntity<ExceptionInfo> isNotAuthor(){
+        List<String > strings=new ArrayList<>();
+        strings.add(isNotAuthorInfo);
+        ExceptionInfo exceptionInfo=new ExceptionInfo(isNotAuthorCode,isNotAuthorType,strings);
+        return new ResponseEntity<>(exceptionInfo,HttpStatus.BAD_REQUEST);
+    }
+
+    @Value("${error.is_not_author.info}")
+    String isNotAuthorInfo;
+
+    @Value("${error.is_not_author.code}")
+    Integer isNotAuthorCode;
+
+    @Value("${error.is_not_author.type}")
+    String isNotAuthorType;
 
 }
